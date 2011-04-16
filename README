@@ -1,4 +1,5 @@
-# RESTduino
+RESTduino
+=========
 
 (note: RESTduino is very beta, expect surprises for awhile yet)
 
@@ -6,12 +7,13 @@ RESTduino is a simple sketch to provide a REST-like interface to the Arduino via
 
 Of course some flexibility is traded for this convinience, only basic operations are currently supported:
 
-Digital pin I/O
-Analog pin input
+* Digital pin I/O
+* Analog pin input
 
 Later versions of the sketch may provide additional functionality (PWM, servo control, etc.) however if you need more than just basic pin control you're probably better off learning the basics of programming the Arduino and offloading some of your processing to the board itself.
 
-## Examples
+Examples
+--------
 
 To read the value of digital pin #9:
 
