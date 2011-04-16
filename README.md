@@ -25,17 +25,19 @@ For testing you'll want some hardware to connect to the Arduino (a green LED is 
 
 Load up the sketch (RESTduino.pde) and modify the following lines to match your setup:
 
-This line sets the MAC address of your ethernet board; if your board has one written on it, you should use that instead:
 byte mac[]={0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 
-The next line you'll need to modify is this one which sets the IP address; set it to something valid for your network:
+This line sets the MAC address of your ethernet board; if your board has one written on it, you should use that instead.
+
 byte ip[] = {192,168,1,177};
+
+The next line you'll need to modify is this one which sets the IP address; set it to something valid for your network.
 
 Now you should be ready to upload the code to your Arduino.  Once the upload is complete you can open the "Serial Monitor" to get some debug info from the sketch.
 
 Now you're ready to start talking REST to your Arduino!
 
-To turn on the LED attached to pin #9:
+To turn on the LED attached to pin #9 (currently case sensitive!):
 
 http://192.168.1.177/9/HIGH
 
