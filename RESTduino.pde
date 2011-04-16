@@ -102,15 +102,16 @@ void loop()
             if(pin[0] == 'a' || pin[0] == 'A'){
 
               //  analog 
-    
               int selectedPin = pin[1] - '0';
               int selectedValue = atoi(value);
               
-              Serial.println(selectedPin);
               Serial.println("analog");
+              Serial.println(selectedPin);
               
               pinMode(selectedPin, OUTPUT);
+              
               Serial.println(selectedValue);
+              
               analogWrite(selectedPin,selectedValue);
               
               //  verify
@@ -118,12 +119,12 @@ void loop()
 
             } else if(pin[0] != NULL){
 
+              //  digital
               int selectedPin = pin[0] - '0';
               
-              Serial.println(selectedPin);
               Serial.println("digital");
+              Serial.println(selectedPin);
               
-              //  digital
               pinMode(selectedPin, OUTPUT);
 
               if(strncmp(value,"HIGH",4) == 0){
@@ -158,20 +159,34 @@ void loop()
 
             //  read the pin value
             Serial.println("reading pin");
-            Serial.println(analogRead(pin[0]));
+            //Serial.println(analogRead(pin[0]));
             
             //  determine analog or digital
             if(pin[0] == 'a' || pin[0] == 'A'){
 
-              //  analog           
-              //pinMode(pin, INPUT);
+              //  analog
+             int selectedPin = pin[0] - '0';
+              
+              Serial.println(selectedPin);
+              Serial.println("analog");
+              
+              Serial.println(analogRead(selectedPin));
+              
               sprintf(outValue,"%d",analogRead(pin[0]));
 
             } else if(pin[0] != NULL) {
 
               //  digital
-              pinMode(pin[0], INPUT);
-              sprintf(outValue,"%d",digitalRead(pin[0]));
+              int selectedPin = pin[0] - '0';
+              
+              Serial.println(selectedPin);
+              Serial.println("digital");
+              
+              //pinMode(selectedPin, INPUT);
+              
+              Serial.println(digitalRead(selectedPin));
+              
+              sprintf(outValue,"%d",digitalRead(selectedPin));
 
             }
 
