@@ -19,7 +19,7 @@ http://192.168.1.177/9
 
 This returns a tiny chunk of JSON containing the pin requested and its current value:
 
-{9:0}
+{"9":"0"}
 
 To set the value of digital pin #9:
 
@@ -27,7 +27,7 @@ http://192.168.1.177/9/HIGH
 
 This will set the pin to the HIGH state and will again test the state of the pin and return the state as JSON (useful for troubleshooting):
 
-{9:1}
+{"9":"1"}
 
 (note that the return values are integers; I'm still torn on what to "standardize" on in regard to digital values)
 
@@ -37,6 +37,6 @@ http://192.168.1.177/a1
 
 ...and return the same JSON formatted result as above:
 
-{a1:432}
+{"a1":"432"}
 
 (I'm not sure if the analog reads are working correctly yet, my test equiptment is incomplete at the moment)
