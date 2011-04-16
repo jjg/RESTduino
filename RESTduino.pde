@@ -144,11 +144,11 @@ void loop()
             }
 
             //  assemble the json output
-            jsonOut += "{";
+            jsonOut += "{\"";
             jsonOut += pin;
-            jsonOut += ":";
+            jsonOut += "\":\"";
             jsonOut += outValue;
-            jsonOut += "}";
+            jsonOut += "\"}";
 
             //  return value
             client.println("HTTP/1.1 200 OK");
@@ -190,11 +190,11 @@ void loop()
             }
 
             //  assemble the json output
-            jsonOut += "{";
+            jsonOut += "{\"";
             jsonOut += pin;
-            jsonOut += ":";
+            jsonOut += "\":\"";
             jsonOut += outValue;
-            jsonOut += "}";
+            jsonOut += "\"}";
 
             //  return value
             client.println("HTTP/1.1 200 OK");
