@@ -29,7 +29,7 @@ This line sets the MAC address of your ethernet board; if your board has one wri
 byte mac[]={0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 
 The next line you'll need to modify is this one which sets the IP address; set it to something valid for your network:
-byte ip[] = {192.168.1.177};
+byte ip[] = {192,168,1,177};
 
 Now you should be ready to upload the code to your Arduino.  Once the upload is complete you can open the "Serial Monitor" to get some debug info from the sketch.
 
