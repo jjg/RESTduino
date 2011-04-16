@@ -17,9 +17,9 @@ Getting Started
 
 First you'll need an Arduino, the Wiznet-based Ethernet shield and the Arduino development tools; here's some links to get you started:
 
-* Arduino Uno (adafruit):
-* Ethernet Shield (adafruit):
-* Arduino development tools:
+* Arduino Uno (adafruit): http://www.adafruit.com/index.php?main_page=product_info&cPath=17&products_id=50
+* Ethernet Shield (adafruit): http://www.adafruit.com/index.php?main_page=product_info&cPath=17_21&products_id=201
+* Arduino development tools: http://www.arduino.cc/en/Main/Software
 
 For testing you'll want some hardware to connect to the Arduino (a green LED is enough to get started).  Connect the LED between pins 9 and ground (GND).
 
