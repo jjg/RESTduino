@@ -104,27 +104,28 @@ void loop()
               //  analog 
               int selectedPin = pin[1] - '0';
               int selectedValue = atoi(value);
-              
+
               Serial.println("analog");
               Serial.println(selectedPin);
-              
+
               pinMode(selectedPin, OUTPUT);
-              
+
               Serial.println(selectedValue);
-              
+
               analogWrite(selectedPin,selectedValue);
-              
+
               //  verify
               sprintf(outValue,"%d",analogRead(selectedPin));
 
-            } else if(pin[0] != NULL){
+            } 
+            else if(pin[0] != NULL){
 
               //  digital
               int selectedPin = pin[0] - '0';
-              
+
               Serial.println("digital");
               Serial.println(selectedPin);
-              
+
               pinMode(selectedPin, OUTPUT);
 
               if(strncmp(value,"HIGH",4) == 0){
@@ -155,39 +156,37 @@ void loop()
             client.println();
             client.println(jsonOut);
 
-          } else {
+          } 
+          else {
 
             //  read the pin value
             Serial.println("reading pin");
-            //Serial.println(analogRead(pin[0]));
-            
+
             //  determine analog or digital
             if(pin[0] == 'a' || pin[0] == 'A'){
 
               //  analog
-             int selectedPin = pin[0] - '0';
-              
+              int selectedPin = pin[0] - '0';
+
               Serial.println(selectedPin);
               Serial.println("analog");
-              
-              Serial.println(analogRead(selectedPin));
-              
-              sprintf(outValue,"%d",analogRead(pin[0]));
 
-            } else if(pin[0] != NULL) {
+              Serial.println(analogRead(selectedPin));
+
+              sprintf(outValue,"%d",analogRead(selectedPin));
+
+            } 
+            else if(pin[0] != NULL) {
 
               //  digital
               int selectedPin = pin[0] - '0';
-              
+
               Serial.println(selectedPin);
               Serial.println("digital");
-              
-              //pinMode(selectedPin, INPUT);
-              
-              Serial.println(digitalRead(selectedPin));
-              
-              sprintf(outValue,"%d",digitalRead(selectedPin));
 
+              Serial.println(digitalRead(selectedPin));
+
+              sprintf(outValue,"%d",digitalRead(selectedPin));
             }
 
             //  assemble the json output
@@ -203,7 +202,8 @@ void loop()
             client.println();
             client.println(jsonOut);
           }
-        } else {
+        } 
+        else {
           //  error
           Serial.println("erroring");
           client.println("HTTP/1.1 200 OK");
@@ -313,4 +313,5 @@ void loop()
     client.stop();
   }
 }
+
 
