@@ -53,9 +53,7 @@ This returns a tiny chunk of JSON containing the pin requested and its current v
 
 {"9":"LOW"}
 
-(note that the return values are integers; I'm still torn on what to "standardize" on in regard to digital values)
-
-Analog reads are simular; reading the value of Analog pin #1 looks like this:
+Analog reads are similar; reading the value of Analog pin #1 looks like this:
 
 http://192.168.1.177/a1
 
@@ -63,4 +61,4 @@ http://192.168.1.177/a1
 
 {"a1":"432"}
 
-(I'm not sure if the analog reads are working correctly yet, my test equiptment is incomplete at the moment)
+(I'm not sure if the analog reads are working correctly yet, my test equipment is incomplete at the moment)
