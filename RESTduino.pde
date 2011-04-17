@@ -87,7 +87,8 @@ void loop()
         char *value = strtok(NULL,"/");
 
         //  this is where we actually *do something*!
-        char outValue[10];
+        char outValue[10] = "MU";
+        //outValue = "MU";
         String jsonOut = String();
 
         if(pin != NULL){
@@ -166,7 +167,17 @@ void loop()
               Serial.println("digital");
 
               pinMode(selectedPin, INPUT);
-              sprintf(outValue,"%d",digitalRead(selectedPin));
+              
+              int inValue = digitalRead(selectedPin);
+              
+              if(inValue == 0){
+                sprintf(outValue,"%s","LOW");
+                //sprintf(outValue,"%d",digitalRead(selectedPin));
+              }
+              
+              if(inValue == 1){
+                sprintf(outValue,"%s","HIGH");
+              }
               
               Serial.println(outValue);
             }
