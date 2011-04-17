@@ -97,10 +97,62 @@ void loop()
 
             //  set the pin value
             Serial.println("setting pin");
-
+            
+            //  select the pin
+            int selectedPin = pin[0] -'0';
+            Serial.println(selectedPin);
+            
+            //  set the pin for output
+            pinMode(selectedPin, OUTPUT);
+            
+            //  determine digital or analog (PWM)
+            if(strncmp(value, "HIGH", 4) == 0 || strncmp(value, "LOW", 3) == 0){
+              
+              //  digital
+              Serial.println("digital");
+              
+              if(strncmp(value, "HIGH", 4) == 0){
+                Serial.println("HIGH");
+                digitalWrite(selectedPin, HIGH);
+              }
+              
+              if(strncmp(value, "LOW", 3) == 0){
+                Serial.println("LOW");
+                digitalWrite(selectedPin, LOW);
+              }
+              
+            } else {
+              
+              //  analog
+              Serial.println("analog");
+              
+              //  get numeric value
+              int selectedValue = atoi(value);              
+              Serial.println(selectedValue);
+              
+              analogWrite(selectedPin, selectedValue);
+              
+            }
+            /*
+            //  assemble the json output
+            jsonOut += "{\"";
+            jsonOut += pin;
+            jsonOut += "\":\"";
+            jsonOut += value;
+            jsonOut += "\"}";
+            */
+            
+            //  return value
+            client.println("HTTP/1.1 200 OK");
+            client.println("Content-Type: text/html");
+            client.println();
+            //client.println(jsonOut);
+            
+            /*
             //  determine analog or digital
             if(pin[0] == 'a' || pin[0] == 'A'){
 
+              //  removed for now (we don't "set" analog pins...)
               
               //  analog 
               int selectedPin = pin[1] - '0';
@@ -117,6 +169,7 @@ void loop()
 
               //  verify
               sprintf(outValue,"%d",analogRead(selectedPin));
+              
 
             } 
             else if(pin[0] != NULL){
@@ -156,7 +209,7 @@ void loop()
             client.println("Content-Type: text/html");
             client.println();
             client.println(jsonOut);
-
+            */
           } 
           else {
 
