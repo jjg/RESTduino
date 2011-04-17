@@ -220,14 +220,16 @@ void loop()
             if(pin[0] == 'a' || pin[0] == 'A'){
 
               //  analog
-              int selectedPin = pin[0] - '0';
+              int selectedPin = pin[1] - '0';
 
-              Serial.println(selectedPin);
               Serial.println("analog");
+              Serial.println(selectedPin);
 
-              Serial.println(analogRead(selectedPin));
+              //Serial.println(analogRead(selectedPin));
 
               sprintf(outValue,"%d",analogRead(selectedPin));
+              
+              Serial.println(outValue);
 
             } 
             else if(pin[0] != NULL) {
