@@ -222,8 +222,8 @@ void loop()
               //  analog
               int selectedPin = pin[1] - '0';
 
-              Serial.println("analog");
               Serial.println(selectedPin);
+              Serial.println("analog");
 
               //Serial.println(analogRead(selectedPin));
 
@@ -240,9 +240,12 @@ void loop()
               Serial.println(selectedPin);
               Serial.println("digital");
 
-              Serial.println(digitalRead(selectedPin));
+              //Serial.println(digitalRead(selectedPin));
 
+              pinMode(selectedPin, INPUT);
               sprintf(outValue,"%d",digitalRead(selectedPin));
+              
+              Serial.println(outValue);
             }
 
             //  assemble the json output
