@@ -23,7 +23,7 @@
 byte mac[] = { 
   0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 byte ip[] = { 
-  192,168,1, 177 };
+  192,168,1,177 };
 
 // Initialize the Ethernet server library
 // with the IP address and port you want to use 
@@ -101,6 +101,7 @@ void loop()
             //  determine analog or digital
             if(pin[0] == 'a' || pin[0] == 'A'){
 
+              
               //  analog 
               int selectedPin = pin[1] - '0';
               int selectedValue = atoi(value);
