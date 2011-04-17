@@ -60,5 +60,3 @@ http://192.168.1.177/a1
 ...and return the same JSON formatted result as above:
 
 {"a1":"432"}
-
-(I'm not sure if the analog reads are working correctly yet, my test equipment is incomplete at the moment)
