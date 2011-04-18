@@ -60,3 +60,11 @@ http://192.168.1.177/a1
 ...and return the same JSON formatted result as above:
 
 {"a1":"432"}
+
+Javascript/jQuery Demo
+----------------------
+A simple example of how to interface with RESTduino via jQuery is included as DemoApp.html.  
+
+This page displays a slider control (via jQuery UI) which when adjusted will set the PWM value of Pin #9 to the value selected by the slider.
+
+If you look at line 19 you can see where the REST URL (you'll need to adjust this for the IP address of your device) is constructed based on the selected value of the slider and on line 22 an AJAX request is executed passing the URL constructed above to the Arduino.
