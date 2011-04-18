@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <link type="text/css" href="jquery-ui-1/css/blitzer/jquery-ui-1.8.11.custom.css" rel="stylesheet" />	
+		<script type="text/javascript" src="jquery-ui-1/js/jquery-1.5.1.min.js"></script>
+		<script type="text/javascript" src="jquery-ui-1/js/jquery-ui-1.8.11.custom.min.js"></script>
+        <meta charset="utf-8">
+        <script>
+            $(function() {
+              $( "#slider-vertical" ).slider({
+                                             orientation: "vertical",
+                                             range: "min",
+                                             min: 0,
+                                             max: 255,
+                                             value: 100,
+                                             slide: function( event, ui ) {
+                                                $( "#amount" ).val( ui.value );
+                                             
+                                                    //  build a URL using the value from the slider
+                                                    var resturl = "http://192.168.1.177/9/" + ui.value;
+                                                 
+                                                    //  make an AJAX call to the Arduino
+                                                    $.get(resturl, function(data) {
+                                                          });
+                                             }
+                                             });
+
+                $( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
+
+              });
+        </script>
+    </head>
+    <body>
+            
+        <p>
+            <label for="amount">PWM Value:</label>
+            <input type="text" id="amount" style="border:0; color:#f6931f; font-weight:bold;" />
+        </p>
+        
+        <div id="slider-vertical" style="height:200px;"></div>
+        
+    </body>
+</html>
+
