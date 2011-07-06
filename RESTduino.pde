@@ -189,9 +189,10 @@ void loop()
             jsonOut += outValue;
             jsonOut += "\"}";
 
-            //  return value
+            //  return value with wildcarded Cross-origin policy
             client.println("HTTP/1.1 200 OK");
             client.println("Content-Type: text/html");
+            client.println("Access-Control-Allow-Origin: *");
             client.println();
             client.println(jsonOut);
           }
