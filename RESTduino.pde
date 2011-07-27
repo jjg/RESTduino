@@ -98,7 +98,7 @@ void loop()
             Serial.println("setting pin");
             
             //  select the pin
-            int selectedPin = pin[0] -'0';
+            int selectedPin = atoi (pin);
             Serial.println(selectedPin);
             
             //  set the pin for output
