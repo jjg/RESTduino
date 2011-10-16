@@ -12,8 +12,13 @@
  
  created 04/12/2011
  by Jason J. Gullickson
+
+ added 10/16/2011
+ by Edward M. Goldberg - Optional Debug flag
  
  */
+
+// #define DEBUG 1
 
 #include <SPI.h>
 #include <Ethernet.h>
@@ -30,8 +35,10 @@ Server server(80);
 
 void setup()
 {
+#ifdef DEBUG
   //  turn on serial (for debuggin)
   Serial.begin(9600);
+#endif
 
   // start the Ethernet connection and the server:
   Ethernet.begin(mac, ip);
@@ -94,12 +101,16 @@ void loop()
         if(pin != NULL){
           if(value != NULL){
 
+#ifdef DEBUG
             //  set the pin value
             Serial.println("setting pin");
+#endif
             
             //  select the pin
             int selectedPin = atoi (pin);
+#ifdef DEBUG
             Serial.println(selectedPin);
+#endif
             
             //  set the pin for output
             pinMode(selectedPin, OUTPUT);
@@ -107,28 +118,36 @@ void loop()
             //  determine digital or analog (PWM)
             if(strncmp(value, "HIGH", 4) == 0 || strncmp(value, "LOW", 3) == 0){
               
+#ifdef DEBUG
               //  digital
               Serial.println("digital");
+#endif
               
               if(strncmp(value, "HIGH", 4) == 0){
+#ifdef DEBUG
                 Serial.println("HIGH");
+#endif
                 digitalWrite(selectedPin, HIGH);
               }
               
               if(strncmp(value, "LOW", 3) == 0){
+#ifdef DEBUG
                 Serial.println("LOW");
+#endif
                 digitalWrite(selectedPin, LOW);
               }
               
             } else {
               
+#ifdef DEBUG
               //  analog
               Serial.println("analog");
-              
+#endif
               //  get numeric value
               int selectedValue = atoi(value);              
+#ifdef DEBUG
               Serial.println(selectedValue);
-              
+#endif
               analogWrite(selectedPin, selectedValue);
               
             }
@@ -140,9 +159,10 @@ void loop()
             
           } 
           else {
-
+#ifdef DEBUG
             //  read the pin value
             Serial.println("reading pin");
+#endif
 
             //  determine analog or digital
             if(pin[0] == 'a' || pin[0] == 'A'){
@@ -150,12 +170,16 @@ void loop()
               //  analog
               int selectedPin = pin[1] - '0';
 
+#ifdef DEBUG
               Serial.println(selectedPin);
               Serial.println("analog");
+#endif
 
               sprintf(outValue,"%d",analogRead(selectedPin));
               
+#ifdef DEBUG
               Serial.println(outValue);
+#endif
 
             } 
             else if(pin[0] != NULL) {
@@ -163,8 +187,10 @@ void loop()
               //  digital
               int selectedPin = pin[0] - '0';
 
+#ifdef DEBUG
               Serial.println(selectedPin);
               Serial.println("digital");
+#endif
 
               pinMode(selectedPin, INPUT);
               
@@ -179,7 +205,9 @@ void loop()
                 sprintf(outValue,"%s","HIGH");
               }
               
+#ifdef DEBUG
               Serial.println(outValue);
+#endif
             }
 
             //  assemble the json output
@@ -200,7 +228,9 @@ void loop()
         else {
           
           //  error
+#ifdef DEBUG
           Serial.println("erroring");
+#endif
           client.println("HTTP/1.1 404 Not Found");
           client.println("Content-Type: text/html");
           client.println();
@@ -217,5 +247,3 @@ void loop()
     client.stop();
   }
 }
-
-
