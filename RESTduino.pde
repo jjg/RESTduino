@@ -68,17 +68,19 @@ void loop()
         char c = client.read();
 
         //  fill url the buffer
-        if(c != '\n' && c != '\r'){
-          clientline[index] = c;
-          index++;
-
-          //  if we run out of buffer, overwrite the end
-          if(index >= BUFSIZE)
-            index = BUFSIZE -1;
-
+        if(c != '\n' && c != '\r' && index < BUFSIZE){ // Reads until either an eol character is reached or the buffer is full
+          clientline[index++] = c;
           continue;
-        } 
-
+        }  
+		
+		// Flush any remaining bytes from the client buffer
+		client.flush();
+		
+#ifdef DEBUG
+		// Should be 0
+		Serial.print("client available bytes = "); Serial.println(client.available());
+#endif
+		
         //  convert clientline into a proper
         //  string for further processing
         String urlString = String(clientline);
@@ -102,7 +104,6 @@ void loop()
 
         //  this is where we actually *do something*!
         char outValue[10] = "MU";
-        //outValue = "MU";
         String jsonOut = String();
 
         if(pin != NULL){
