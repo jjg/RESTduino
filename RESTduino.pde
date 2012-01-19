@@ -48,6 +48,9 @@ void setup()
 //  url buffer size
 #define BUFSIZE 255
 
+// Toggle case sensitivity
+// #define CASESENSE 1
+
 void loop()
 {
   char clientline[BUFSIZE];
@@ -87,7 +90,11 @@ void loop()
         urlString = urlString.substring(urlString.indexOf('/'), urlString.indexOf(' ', urlString.indexOf('/')));
 
         //  put what's left of the URL back in client line
+#ifdef CASESENSE
+        urlString.ToUpperCase().toCharArray(clientline, BUFSIZE);
+#else
         urlString.toCharArray(clientline, BUFSIZE);
+#endif
 
         //  get the first two parameters
         char *pin = strtok(clientline,"/");
