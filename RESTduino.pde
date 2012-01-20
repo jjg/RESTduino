@@ -1,5 +1,5 @@
 /*
-  RESTduino
+ RESTduino
  
  A REST-style interface to the Arduino via the 
  Wiznet Ethernet shield.
@@ -12,7 +12,7 @@
  
  created 04/12/2011
  by Jason J. Gullickson
-
+ 
  added 10/16/2011
  by Edward M. Goldberg - Optional Debug flag
  
@@ -31,7 +31,11 @@ byte ip[] = {192,168,1,178};
 // Initialize the Ethernet server library
 // with the IP address and port you want to use 
 // (port 80 is default for HTTP):
+#if defined(ARDUINO) && ARDUINO >= 100
 EthernetServer server(80);
+#else
+Server server(80);
+#endif
 
 void setup()
 {
@@ -56,7 +60,11 @@ void loop()
   char clientline[BUFSIZE];
   int index = 0;
   // listen for incoming clients
+#if defined(ARDUINO) && ARDUINO >= 100
   EthernetClient client = server.available();
+#else
+  Client client = server.available();
+#endif
   if (client) {
 
     //  reset input buffer
@@ -71,20 +79,20 @@ void loop()
           clientline[index++] = c;
           continue;
         }  
-		
+
 #ifdef DEBUG
-		Serial.print("client available bytes before flush: "); Serial.println(client.available());
-		Serial.print("request = "); Serial.println(clientline);
+        Serial.print("client available bytes before flush: "); Serial.println(client.available());
+        Serial.print("request = "); Serial.println(clientline);
 #endif
-		
-		// Flush any remaining bytes from the client buffer
-		client.flush();
-		
+
+        // Flush any remaining bytes from the client buffer
+        client.flush();
+
 #ifdef DEBUG
-		// Should be 0
-		Serial.print("client available bytes after flush: "); Serial.println(client.available());
+        // Should be 0
+        Serial.print("client available bytes after flush: "); Serial.println(client.available());
 #endif
-		
+
         //  convert clientline into a proper
         //  string for further processing
         String urlString = String(clientline);
@@ -116,40 +124,41 @@ void loop()
             //  set the pin value
             Serial.println("setting pin");
 #endif
-            
+
             //  select the pin
             int selectedPin = atoi (pin);
 #ifdef DEBUG
             Serial.println(selectedPin);
 #endif
-            
+
             //  set the pin for output
             pinMode(selectedPin, OUTPUT);
-            
+
             //  determine digital or analog (PWM)
             if(strncmp(value, "HIGH", 4) == 0 || strncmp(value, "LOW", 3) == 0){
-              
+
 #ifdef DEBUG
               //  digital
               Serial.println("digital");
 #endif
-              
+
               if(strncmp(value, "HIGH", 4) == 0){
 #ifdef DEBUG
                 Serial.println("HIGH");
 #endif
                 digitalWrite(selectedPin, HIGH);
               }
-              
+
               if(strncmp(value, "LOW", 3) == 0){
 #ifdef DEBUG
                 Serial.println("LOW");
 #endif
                 digitalWrite(selectedPin, LOW);
               }
-              
-            } else {
-              
+
+            } 
+            else {
+
 #ifdef DEBUG
               //  analog
               Serial.println("analog");
@@ -160,14 +169,14 @@ void loop()
               Serial.println(selectedValue);
 #endif
               analogWrite(selectedPin, selectedValue);
-              
+
             }
- 
+
             //  return status
             client.println("HTTP/1.1 200 OK");
             client.println("Content-Type: text/html");
             client.println();
-            
+
           } 
           else {
 #ifdef DEBUG
@@ -187,7 +196,7 @@ void loop()
 #endif
 
               sprintf(outValue,"%d",analogRead(selectedPin));
-              
+
 #ifdef DEBUG
               Serial.println(outValue);
 #endif
@@ -204,18 +213,18 @@ void loop()
 #endif
 
               pinMode(selectedPin, INPUT);
-              
+
               int inValue = digitalRead(selectedPin);
-              
+
               if(inValue == 0){
                 sprintf(outValue,"%s","LOW");
                 //sprintf(outValue,"%d",digitalRead(selectedPin));
               }
-              
+
               if(inValue == 1){
                 sprintf(outValue,"%s","HIGH");
               }
-              
+
 #ifdef DEBUG
               Serial.println(outValue);
 #endif
@@ -237,7 +246,7 @@ void loop()
           }
         } 
         else {
-          
+
           //  error
 #ifdef DEBUG
           Serial.println("erroring");
@@ -245,7 +254,7 @@ void loop()
           client.println("HTTP/1.1 404 Not Found");
           client.println("Content-Type: text/html");
           client.println();
-          
+
         }
         break;
       }
@@ -253,8 +262,9 @@ void loop()
 
     // give the web browser time to receive the data
     delay(1);
-    
+
     // close the connection:
     client.stop();
   }
 }
+
