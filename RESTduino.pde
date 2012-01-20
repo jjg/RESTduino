@@ -18,7 +18,7 @@
  
  */
 
-// #define DEBUG 1
+#define DEBUG 1
 
 #include <SPI.h>
 #include <Ethernet.h>
@@ -26,12 +26,12 @@
 // Enter a MAC address and IP address for your controller below.
 // The IP address will be dependent on your local network:
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte ip[] = {192,168,1,177};
+byte ip[] = {192,168,1,178};
 
 // Initialize the Ethernet server library
 // with the IP address and port you want to use 
 // (port 80 is default for HTTP):
-Server server(80);
+EthernetServer server(80);
 
 void setup()
 {
@@ -49,15 +49,14 @@ void setup()
 #define BUFSIZE 255
 
 // Toggle case sensitivity
-// #define CASESENSE 1
+#define CASESENSE 1
 
 void loop()
 {
   char clientline[BUFSIZE];
   int index = 0;
-
   // listen for incoming clients
-  Client client = server.available();
+  EthernetClient client = server.available();
   if (client) {
 
     //  reset input buffer
@@ -73,12 +72,17 @@ void loop()
           continue;
         }  
 		
+#ifdef DEBUG
+		Serial.print("client available bytes before flush: "); Serial.println(client.available());
+		Serial.print("request = "); Serial.println(clientline);
+#endif
+		
 		// Flush any remaining bytes from the client buffer
 		client.flush();
 		
 #ifdef DEBUG
 		// Should be 0
-		Serial.print("client available bytes = "); Serial.println(client.available());
+		Serial.print("client available bytes after flush: "); Serial.println(client.available());
 #endif
 		
         //  convert clientline into a proper
@@ -93,10 +97,9 @@ void loop()
 
         //  put what's left of the URL back in client line
 #ifdef CASESENSE
-        urlString.ToUpperCase().toCharArray(clientline, BUFSIZE);
-#else
-        urlString.toCharArray(clientline, BUFSIZE);
+        urlString.toUpperCase();
 #endif
+        urlString.toCharArray(clientline, BUFSIZE);
 
         //  get the first two parameters
         char *pin = strtok(clientline,"/");
