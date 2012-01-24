@@ -1,5 +1,5 @@
 /*
-  RESTduino
+ RESTduino
  
  A REST-style interface to the Arduino via the 
  Wiznet Ethernet shield.
@@ -12,13 +12,13 @@
  
  created 04/12/2011
  by Jason J. Gullickson
-
+ 
  added 10/16/2011
  by Edward M. Goldberg - Optional Debug flag
  
  */
 
-// #define DEBUG 1
+#define DEBUG false
 
 #include <SPI.h>
 #include <Ethernet.h>
@@ -31,11 +31,15 @@ byte ip[] = {192,168,1,177};
 // Initialize the Ethernet server library
 // with the IP address and port you want to use 
 // (port 80 is default for HTTP):
+#if defined(ARDUINO) && ARDUINO >= 100
+EthernetServer server(80);
+#else
 Server server(80);
+#endif
 
 void setup()
 {
-#ifdef DEBUG
+#if DEBUG
   //  turn on serial (for debuggin)
   Serial.begin(9600);
 #endif
@@ -48,13 +52,19 @@ void setup()
 //  url buffer size
 #define BUFSIZE 255
 
+// Toggle case sensitivity
+#define CASESENSE true
+
 void loop()
 {
   char clientline[BUFSIZE];
   int index = 0;
-
   // listen for incoming clients
+#if defined(ARDUINO) && ARDUINO >= 100
+  EthernetClient client = server.available();
+#else
   Client client = server.available();
+#endif
   if (client) {
 
     //  reset input buffer
@@ -65,16 +75,23 @@ void loop()
         char c = client.read();
 
         //  fill url the buffer
-        if(c != '\n' && c != '\r'){
-          clientline[index] = c;
-          index++;
-
-          //  if we run out of buffer, overwrite the end
-          if(index >= BUFSIZE)
-            index = BUFSIZE -1;
-
+        if(c != '\n' && c != '\r' && index < BUFSIZE){ // Reads until either an eol character is reached or the buffer is full
+          clientline[index++] = c;
           continue;
-        } 
+        }  
+
+#if DEBUG
+        Serial.print("client available bytes before flush: "); Serial.println(client.available());
+        Serial.print("request = "); Serial.println(clientline);
+#endif
+
+        // Flush any remaining bytes from the client buffer
+        client.flush();
+
+#if DEBUG
+        // Should be 0
+        Serial.print("client available bytes after flush: "); Serial.println(client.available());
+#endif
 
         //  convert clientline into a proper
         //  string for further processing
@@ -87,6 +104,9 @@ void loop()
         urlString = urlString.substring(urlString.indexOf('/'), urlString.indexOf(' ', urlString.indexOf('/')));
 
         //  put what's left of the URL back in client line
+#if CASESENSE
+        urlString.toUpperCase();
+#endif
         urlString.toCharArray(clientline, BUFSIZE);
 
         //  get the first two parameters
@@ -95,71 +115,71 @@ void loop()
 
         //  this is where we actually *do something*!
         char outValue[10] = "MU";
-        //outValue = "MU";
         String jsonOut = String();
 
         if(pin != NULL){
           if(value != NULL){
 
-#ifdef DEBUG
+#if DEBUG
             //  set the pin value
             Serial.println("setting pin");
 #endif
-            
+
             //  select the pin
             int selectedPin = atoi (pin);
-#ifdef DEBUG
+#if DEBUG
             Serial.println(selectedPin);
 #endif
-            
+
             //  set the pin for output
             pinMode(selectedPin, OUTPUT);
-            
+
             //  determine digital or analog (PWM)
             if(strncmp(value, "HIGH", 4) == 0 || strncmp(value, "LOW", 3) == 0){
-              
-#ifdef DEBUG
+
+#if DEBUG
               //  digital
               Serial.println("digital");
 #endif
-              
+
               if(strncmp(value, "HIGH", 4) == 0){
-#ifdef DEBUG
+#if DEBUG
                 Serial.println("HIGH");
 #endif
                 digitalWrite(selectedPin, HIGH);
               }
-              
+
               if(strncmp(value, "LOW", 3) == 0){
-#ifdef DEBUG
+#if DEBUG
                 Serial.println("LOW");
 #endif
                 digitalWrite(selectedPin, LOW);
               }
-              
-            } else {
-              
-#ifdef DEBUG
+
+            } 
+            else {
+
+#if DEBUG
               //  analog
               Serial.println("analog");
 #endif
               //  get numeric value
               int selectedValue = atoi(value);              
-#ifdef DEBUG
+#if DEBUG
               Serial.println(selectedValue);
 #endif
               analogWrite(selectedPin, selectedValue);
-              
+
             }
- 
+
             //  return status
             client.println("HTTP/1.1 200 OK");
             client.println("Content-Type: text/html");
             client.println();
-            
+
           } 
           else {
-#ifdef DEBUG
+#if DEBUG
             //  read the pin value
             Serial.println("reading pin");
 #endif
@@ -170,14 +190,14 @@ void loop()
               //  analog
               int selectedPin = pin[1] - '0';
 
-#ifdef DEBUG
+#if DEBUG
               Serial.println(selectedPin);
               Serial.println("analog");
 #endif
 
               sprintf(outValue,"%d",analogRead(selectedPin));
-              
-#ifdef DEBUG
+
+#if DEBUG
               Serial.println(outValue);
 #endif
 
@@ -187,25 +207,25 @@ void loop()
               //  digital
               int selectedPin = pin[0] - '0';
 
-#ifdef DEBUG
+#if DEBUG
               Serial.println(selectedPin);
               Serial.println("digital");
 #endif
 
               pinMode(selectedPin, INPUT);
-              
+
               int inValue = digitalRead(selectedPin);
-              
+
               if(inValue == 0){
                 sprintf(outValue,"%s","LOW");
                 //sprintf(outValue,"%d",digitalRead(selectedPin));
               }
-              
+
               if(inValue == 1){
                 sprintf(outValue,"%s","HIGH");
               }
-              
-#ifdef DEBUG
+
+#if DEBUG
               Serial.println(outValue);
 #endif
             }
@@ -226,15 +246,15 @@ void loop()
           }
         } 
         else {
-          
+
           //  error
-#ifdef DEBUG
+#if DEBUG
           Serial.println("erroring");
 #endif
           client.println("HTTP/1.1 404 Not Found");
           client.println("Content-Type: text/html");
           client.println();
-          
+
         }
         break;
       }
@@ -242,8 +262,9 @@ void loop()
 
     // give the web browser time to receive the data
     delay(1);
-    
+
     // close the connection:
     client.stop();
   }
 }
+
