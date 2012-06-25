@@ -26,7 +26,7 @@
 // Enter a MAC address and IP address for your controller below.
 // The IP address will be dependent on your local network:
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
-byte ip[] = {192,168,1,177};
+byte ip[] = {10,0,1,100};
 
 // Initialize the Ethernet server library
 // with the IP address and port you want to use 
@@ -264,7 +264,11 @@ void loop()
     delay(1);
 
     // close the connection:
+    //client.stop();
     client.stop();
+      while(client.status() != 0){
+      delay(5);
+    }
   }
 }
 
