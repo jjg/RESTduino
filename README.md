@@ -1,6 +1,8 @@
 RESTduino
 =========
 
+[![endorse](http://api.coderwall.com/jjg/endorsecount.png)](http://coderwall.com/jjg)
+
 RESTduino is a simple sketch to provide a REST-like interface to the Arduino via the Ethernet Shield.  The idea is to allow developers familiar with interacting with REST services with a way to control physical devices using the Arduino (without having to write any Arduino code).
 
 You can see a crude demo video on YouTube here: http://www.youtube.com/watch?v=X-s2se-34-g
