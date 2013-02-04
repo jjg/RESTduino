@@ -27,13 +27,15 @@ For testing you'll want some hardware to connect to the Arduino (a green LED is 
 
 Load up the sketch (RESTduino.pde) and modify the following lines to match your setup:
 
-byte mac[]={0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
+    byte mac[]={0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 
 This line sets the MAC address of your ethernet board; if your board has one written on it, you should use that instead.
 
-byte ip[] = {192,168,1,177};
+By default RESTduino will use DHCP to configure its IP address, and uses Bonjour/Zeroconf to make itself visible to other clients by name (default name is 'restduino.local').
 
-The next line you'll need to modify is this one which sets the IP address; set it to something valid for your network.
+If you want to use a static address, set the STATICIP flag to 'true' and configure the address by modifying the line below to match your desired address:
+
+    byte ip[] = {192,168,1,177};
 
 Now you should be ready to upload the code to your Arduino.  Once the upload is complete you can open the "Serial Monitor" to get some debug info from the sketch.
 
