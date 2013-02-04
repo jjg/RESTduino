@@ -17,6 +17,12 @@ Later versions of the sketch may provide additional functionality (servo control
 Getting Started
 ---------------
 
+*note:* Bonjour/Zeroconf required blank's Bonjour/Zeroconf library originally found here: 
+
+http://gkaindl.com/software/arduino-ethernet/bonjour
+
+This library required minor modifications to work with Arduino 1.x, so I have included the modified version here.  I'm not sure the best way to include a non-standard dependency in an Arduino github project, so it's here if you need it, and if there's a better way to do this, please let me know :)
+
 First you'll need an Arduino, a Wiznet-based Ethernet shield and the Arduino development tools; here's some links to get you started:
 
 * Arduino Uno (adafruit): http://www.adafruit.com/index.php?main_page=product_info&cPath=17&products_id=50
