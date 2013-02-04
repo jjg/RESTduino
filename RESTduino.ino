@@ -67,7 +67,7 @@ void setup()
 #endif
   server.begin();
   
-  EthernetBonjour.begin("RESTduino");
+  EthernetBonjour.begin("restduino");
 }
 
 //  url buffer size
