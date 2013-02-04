@@ -17,7 +17,7 @@ Later versions of the sketch may provide additional functionality (servo control
 Getting Started
 ---------------
 
-*note:* Bonjour/Zeroconf required blank's Bonjour/Zeroconf library originally found here: 
+*note:* Bonjour/Zeroconf required Georg Kaindl's Bonjour/Zeroconf library originally found here: 
 
 http://gkaindl.com/software/arduino-ethernet/bonjour
 
