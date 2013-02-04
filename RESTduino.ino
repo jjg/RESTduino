@@ -19,10 +19,11 @@
  */
 
 #define DEBUG false
-#define STATICIP true
+#define STATICIP false
 
 #include <SPI.h>
 #include <Ethernet.h>
+#include <EthernetBonjour.h>
 
 // Enter a MAC address and IP address for your controller below.
 // The IP address will be dependent on your local network:
@@ -65,6 +66,8 @@ void setup()
 #endif
 #endif
   server.begin();
+  
+  EthernetBonjour.begin("RESTduino");
 }
 
 //  url buffer size
@@ -75,6 +78,9 @@ void setup()
 
 void loop()
 {
+  // needed to continue Bonjour/Zeroconf name registration
+  EthernetBonjour.run();
+  
   char clientline[BUFSIZE];
   int index = 0;
   // listen for incoming clients
