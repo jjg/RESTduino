@@ -29,7 +29,7 @@
 // The IP address will be dependent on your local network:
 byte mac[] = {0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 
-#if STATICPIP
+#if STATICIP
 byte ip[] = {10,0,1,100};
 #endif
 
@@ -50,7 +50,7 @@ void setup()
 #endif
 
   // start the Ethernet connection and the server:
-#if STATICPIP
+#if STATICIP
   Ethernet.begin(mac, ip);
 #else
   if (Ethernet.begin(mac) == 0) {
