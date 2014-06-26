@@ -53,7 +53,7 @@ http://192.168.1.177/9/HIGH
 
 This will set the pin to the HIGH state and the LED should light.  Next try this:
 
-http://192.168.1.177/100
+http://192.168.1.177/9/100
 
 This will use PWM to illuminate the LED at around 50% brightness (valid PWM values are 0-255).
 
