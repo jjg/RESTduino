@@ -6,48 +6,102 @@
 	
 		<h3>digital pins PWM values:</h3>
 		<ol>
-			<li><input id="d1Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display1',this.value)" onMouseUp="sendToRestduino(1,this.value)">&nbsp;
+			<li><input id="d1Input" type="range" min="0" max="255" value="0" onChange="update_display('display1',this.value)" onMouseUp="set_pin('1', this.value)">&nbsp;
 				<input id="display1" type="text" value="0"></li>
-			<li><input id="d2Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display2',this.value)" onMouseUp="sendToRestduino(2,this.value)">&nbsp;
+			<li><input id="d2Input" type="range" min="0" max="255" value="0" onChange="update_display('display2',this.value)" onMouseUp="set_pin('2', this.value)">&nbsp;
 				<input id="display2" type="text" value="0"></li>
-			<li><input id="d3Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display3',this.value)" onMouseUp="sendToRestduino(3,this.value)">&nbsp;
+			<li><input id="d3Input" type="range" min="0" max="255" value="0" onChange="update_display('display3',this.value)" onMouseUp="set_pin('3', this.value)">&nbsp;
 				<input id="display3" type="text" value="0"></li>
-			<li><input id="d4Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display4',this.value)" onMouseUp="sendToRestduino(4,this.value)">&nbsp;
+			<li><input id="d4Input" type="range" min="0" max="255" value="0" onChange="update_display('display4',this.value)" onMouseUp="set_pin('4',this.value)">&nbsp;
 				<input id="display4" type="text" value="0"></li>
-			<li><input id="d5Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display5',this.value)" onMouseUp="sendToRestduino(5,this.value)">&nbsp;
+			<li><input id="d5Input" type="range" min="0" max="255" value="0" onChange="update_display('display5',this.value)" onMouseUp="set_pin('5',this.value)">&nbsp;
 				<input id="display5" type="text" value="0"></li>
-			<li><input id="d6Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display6',this.value)" onMouseUp="sendToRestduino(6,this.value)">&nbsp;
+			<li><input id="d6Input" type="range" min="0" max="255" value="0" onChange="update_display('display6',this.value)" onMouseUp="set_pin('6',this.value)">&nbsp;
 				<input id="display6" type="text" value="0"></li>
-			<li><input id="d7Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display7',this.value)" onMouseUp="sendToRestduino(7,this.value)">&nbsp;
+			<li><input id="d7Input" type="range" min="0" max="255" value="0" onChange="update_display('display7',this.value)" onMouseUp="set_pin('7', this.value)">&nbsp;
 				<input id="display7" type="text" value="0"></li>
-			<li><input id="d8Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display8',this.value)" onMouseUp="sendToRestduino(8,this.value)">&nbsp;
+			<li><input id="d8Input" type="range" min="0" max="255" value="0" onChange="update_display('display8',this.value)" onMouseUp="set_pin('8', this.value)">&nbsp;
 				<input id="display8" type="text" value="0"></li>
-			<li><input id="d9Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display9',this.value)" onMouseUp="sendToRestduino(9,this.value)">&nbsp;
+			<li><input id="d9Input" type="range" min="0" max="255" value="0" onChange="update_display('display9',this.value)" onMouseUp="set_pin('9',this.value)">&nbsp;
 				<input id="display9" type="text" value="0"></li>
-			<li><input id="d10Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display10',this.value)" onMouseUp="sendToRestduino(10,this.value)">&nbsp;
+			<li><input id="d10Input" type="range" min="0" max="255" value="0" onChange="update_display('display10',this.value)" onMouseUp="set_pin('10',this.value)">&nbsp;
 				<input id="display10" type="text" value="0"></li>
-			<li><input id="d11Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display11',this.value)" onMouseUp="sendToRestduino(11,this.value)">&nbsp;
+			<li><input id="d11Input" type="range" min="0" max="255" value="0" onChange="update_display('display11',this.value)" onMouseUp="set_pin('11',this.value)">&nbsp;
 				<input id="display11" type="text" value="0"></li>
-			<li><input id="d12Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display12',this.value)" onMouseUp="sendToRestduino(12,this.value)">&nbsp;
+			<li><input id="d12Input" type="range" min="0" max="255" value="0" onChange="update_display('display12',this.value)" onMouseUp="set_pin('12', this.value)">&nbsp;
 				<input id="display12" type="text" value="0"></li>
-			<li><input id="d13Input" type="range" min="0" max="255" value="0" onChange="updateDisplay('display13',this.value)" onMouseUp="sendToRestduino(13,this.value)">&nbsp;
+			<li><input id="d13Input" type="range" min="0" max="255" value="0" onChange="update_display('display13',this.value)" onMouseUp="set_pin('13',this.value)">&nbsp;
 				<input id="display13" type="text" value="0"></li>
+		</ol>
+
+		<h3>analog pin values</h3>
+		<ol>
+			<li><input id="a1_input" type="range" min="0" max="1023" value="0" readonly>&nbsp;
+				<input id="display_a1" type="text" value="0"></li>
 		</ol>
 		
 		<script>
-			
-			function updateDisplay(control, value){
+		
+			var restduino_host = "restduino.local";
+
+			// check initial status
+			update_status();
+
+			// start timer to periodically update status
+			setInterval(update_status, 1000);
+
+			function update_status(){
+				// check to see if we can reach RESTduino
+				get_pin(restduino_host, "1", function(connected){
+					if(connected){
+						// todo: enable controls
+	
+						// read analog pins
+						get_pin(restduino_host, "a1", function(valid_response){
+							// debug
+							console.log(valid_response.A1);
+							if(valid_response){
+								update_display("a1_input", valid_response.A1);
+								update_display("display_a1", valid_response.A1);
+							}
+						});
+					} else {
+						// todo: disable controls
+					}
+				});
+			}
+
+			// check pin value
+			function get_pin(restduino_host, pin, callback){
+				console.log("Attempting to read pin " + pin +  " on " + restduino_host + "...");
+				ping_req = new XMLHttpRequest();
+				ping_req.open("GET", "http://" + restduino_host + "/" + pin, true);
+				ping_req.onreadystatechange = function(){
+					console.log("ping request state: " + this.readyState);
+					if(this.readyState === 4){
+						if(this.status === 200){
+							console.log("RESTduino responded with HTTP status " + this.status);
+							callback(JSON.parse(this.responseText));
+						} else {
+							console.log("Unable to reach RESTduino");
+							callback(false);
+						}
+					}
+				};
+				ping_req.send();
+			}
 				
+			function update_display(control, value){
 				document.getElementById(control).value = value;
 			}
 			
-			function sendToRestduino(pin, value){
+			function set_pin(pin, value){
 				
 				// debug
 				console.log('sending ' + value + ' to pin ' + pin);
 				
 				restduinoReq = new XMLHttpRequest();
-				restduinoReq.open('GET', 'http://10.0.1.53/' + pin + '/' + value, true);
+				restduinoReq.open('GET', 'http://restduino.local/' + pin + '/' + value, true);
 				restduinoReq.onreadystatechange = restduinoRes;
 				restduinoReq.send();
 				
