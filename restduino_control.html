@@ -4,10 +4,10 @@
 	</head>
 	<body>
 	
-		<h3>digital pins PWM values:</h3>
+		<h3>digital pin values:</h3>
 		<ol>
-			<li><input id="d1Input" type="range" min="0" max="255" value="0" onChange="update_display('display1',this.value)" onMouseUp="set_pin('1', this.value)">&nbsp;
-				<input id="display1" type="text" value="0"></li>
+			<li><input id="d1Input" name="d1_input" type="radio" value="HIGH" onMouseeUp="set_pin('D1', this.value)">&nbsp;HIGH&nbsp;<input id="d1Input" name="d1_input" type="radio" value="LOW" checked onMouseUp="set_pin('D1', this.value)">&nbsp;LOW&nbsp;
+				<input id="display_d1" type="text" value="0"></li>
 			<li><input id="d2Input" type="range" min="0" max="255" value="0" onChange="update_display('display2',this.value)" onMouseUp="set_pin('2', this.value)">&nbsp;
 				<input id="display2" type="text" value="0"></li>
 			<li><input id="d3Input" type="range" min="0" max="255" value="0" onChange="update_display('display3',this.value)" onMouseUp="set_pin('3', this.value)">&nbsp;
@@ -34,7 +34,7 @@
 				<input id="display13" type="text" value="0"></li>
 		</ol>
 
-		<h3>analog pin values</h3>
+		<h3>analog pin values:</h3>
 		<ol>
 			<li><input id="a1_input" type="range" min="0" max="1023" value="0" readonly>&nbsp;
 				<input id="display_a1" type="text" value="0"></li>
@@ -55,7 +55,16 @@
 				get_pin(restduino_host, "1", function(connected){
 					if(connected){
 						// todo: enable controls
-	
+/*
+						// read selected digital pins
+						get_pin(restduino_host, "D1", function(valid_response){
+							// debug
+							console.log(valid_response);
+							if(valid_response){
+								update_display("display_d1", valid_response.D1);
+							}
+						});
+*/	
 						// read analog pins
 						get_pin(restduino_host, "a1", function(valid_response){
 							// debug
