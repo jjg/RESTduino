@@ -199,6 +199,7 @@ void loop()
             //  return status
             client.println("HTTP/1.1 200 OK");
             client.println("Content-Type: text/html");
+            client.println("Access-Control-Allow-Origin: *");
             client.println();
 
           } 
