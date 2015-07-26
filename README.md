@@ -27,7 +27,7 @@ reate an [Issue](https://github.com/jjg/RESTduino/issues) with the details so I 
 
 If you've never worked with Arduino before (or have no interest in learning how to program one) I highly recommend starting with a board that comes with RESTduino preinstalled.
 
-###Installing RESTduino###
+###Installation
 
 *Note: if you purchased a board with RESTduino pre-installed you can jump to the Testing section below.*
 
@@ -66,7 +66,7 @@ Now select File -> Upload from the Arduino software menu to install RESTduino on
 
 Now you're ready to test RESTduino!
 
-###Testing RESTduino###
+###Testing
 
 Connect your board to your network.  If the board uses Ethernet, this is straightforward, but you'll want to connect the board to the same network switch as your computer to keep things simple during testing.  If your board uses WiFi, you may need to do some board-specific configuration to connect the board to your WiFi network.
 
@@ -120,50 +120,35 @@ which returns:
 
     {"A0":"432"}
 
-Analog pins can't be set to a value (they are input-only)
+Analog pins can't be set to a value (they are input-only); if you need to output an "analog" value, use the PWM pins discussed earlier.
 
 
+##Manual Network Configuration
+There's a number of reasons that automatic network configuration may fail:
 
-To turn on the LED attached to pin #9 (currently case sensitive!):
+*  RESTduino can't get an address from your DHCP server (or you don't have one)
+*  Your computer doesn't support Bonjour/Zeroconf
+*  Your network isn't allowing Bonjour/Zeroconf traffic between the board and your computer
+*  Life sucks sometimes
 
-http://192.168.1.177/9/HIGH
+Whatever the reason, if you can't ping the board you can try configuring it's network settings manually to eliminate problems that are specific to automatic configuration.  In order to do this you'll need to compile and install the RESTduino firmware on your board, so review the Installation section first before taking the steps below.
 
-This will set the pin to the HIGH state and the LED should light.  Next try this:
-
-http://192.168.1.177/9/100
-
-This will use PWM to illuminate the LED at around 50% brightness (valid PWM values are 0-255).
-
-Now if we connect a switch to pin #9 we can read the digital (on/off) value using this URL:
-
-http://192.168.1.177/9
-
-This returns a tiny chunk of JSON containing the pin requested and its current value:
-
-{"9":"LOW"}
-
-Analog reads are similar; reading the value of Analog pin #1 looks like this:
-
-http://192.168.1.177/a1
-
-...and return the same JSON formatted result as above:
-
-{"a1":"432"}
-
-
-##Manual Configuration
-For testing you'll want some hardware to connect to the Arduino (a green LED is enough to get started).  Connect the LED between pins 9 and ground (GND).
-
-Load up the sketch (RESTduino.pde) and modify the following lines to match your setup:
+In the Arduino software, modify the following lines to match your network setup:
 
     byte mac[]={0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED};
 
 This line sets the MAC address of your ethernet board; if your board has one written on it, you should use that instead.
 
-By default RESTduino will use DHCP to configure its IP address, and uses Bonjour/Zeroconf to make itself visible to other clients by name (default name is 'restduino.local').
+    #define STATICIP true
 
-If you want to use a static address, set the STATICIP flag to 'true' and configure the address by modifying the line below to match your desired address:
+This line disables automatic network configuration and uses the IP address you'll configure in the next step.
 
     byte ip[] = {192,168,1,177};
 
-Now you should be ready to upload the code to your Arduino.  Once the upload is complete you can open the "Serial Monitor" to get some debug info from the sketch.
+This line sets the IP address the board will use.
+
+Once these changes have been made, compile and upload RESTduino as described above and try to ping the board using the IP address you specified.
+
+    ping 192.168.1.177
+
+If this works you should be able to access the pins using the requests documented above by replacing `restduino.local` with the IP address you manually configured.  If the ping fails again there is something other than an autocofiguration failure to blame, double-check the underlying network connection (Ethernet cables, WiFi configuration etc.) and if you still can't make a connection, post the details in an [Issue](https://github.com/jjg/RESTduino/issues) and we'll try to help you out.
