@@ -1,6 +1,6 @@
 #RESTduino
 
-RESTduino is a simple Arduino sketch that provides a REST-like interface to the Arduino via the Ethernet Shield.  The idea is to allow developers familiar with interacting with REST services a comfortable way to control physical devices using an Arduino (without having to write any Arduino code).
+RESTduino is a simple Arduino sketch that provides a REST-like interface to Arduino equipped with a network interface.  The idea is to allow developers familiar with interacting with REST services a comfortable way to control physical devices using an Arduino (without having to write any Arduino code).
 
 You can see a crude demo video on YouTube here: http://www.youtube.com/watch?v=X-s2se-34-g
 
@@ -18,18 +18,17 @@ To use RESTduino you'll need some hardware, minimally:
 * An Arduino
 * An Arduino network interface
 
-RESTduino was originally designed to work with the Arduino Uno and the Arduino Ethernet Shield, but since that time a number of Arduino-compatible boards with built-in network hardware have appeard.  It should be possible to make any Arduino-Uno compatible network work with RESTduino, but the boards listed below have been tested and confirmed to work:
+RESTduino was originally designed to work with the Arduino Uno and the Arduino Ethernet Shield, but since that time a number of Arduino-compatible boards with built-in network hardware have appeard.  It should be possible to make any Arduino-Uno compatible board with a network interface work with RESTduino, but the boards listed below have been tested and confirmed to work:
 
-* WildFire (comes with RESTduino pre-installed) http://shop.wickeddevice.com/product/wildfire/
+* WildFire (comes with RESTduino preinstalled) http://shop.wickeddevice.com/product/wildfire/
 
-*Note: if you have confirmed that RESTduino runs on additional boards, please issue a pull request to update this list, or c
-reate an [Issue](https://github.com/jjg/RESTduino/issues) with the details so I can add it, thanks!*
+*note: if you have confirmed that RESTduino runs on additional boards, please issue a pull request to update this list, or create an [Issue](https://github.com/jjg/RESTduino/issues) with the details so I can add it, thanks!*
 
-If you've never worked with Arduino before (or have no interest in learning how to program one) I highly recommend starting with a board that comes with RESTduino preinstalled.
+If you've never worked with an Arduino before (and have no interest in learning how to program one) I highly recommend starting with a board that comes with RESTduino preinstalled.
 
 ###Installation
 
-*Note: if you purchased a board with RESTduino pre-installed you can jump to the Testing section below.*
+*note: if you purchased a board with RESTduino preinstalled you can jump to the Testing section below.*
 
 To install RESTduino on your hardware you'll need:
 
@@ -40,7 +39,7 @@ To install RESTduino on your hardware you'll need:
 * USB cable
 * An LED (for testing)
 
-If you haven't already, install and test the Arduino software by running the "Blink" sample sketch on your hardware (it's much easier to debug this sketch than RESTduino).  Once you have blink working you're ready for the next step.
+*note: if you haven't already, install and test the Arduino software by running the "Blink" sample sketch on your hardware (it's much easier to debug this sketch than RESTduino).  Once you have blink working you're ready for the next step.*
 
 Clone the RESTduino repository to get a copy of the code:
 
@@ -88,7 +87,7 @@ To set the value of a pin, make a GET request indicating which pin to set and wh
 
      curl http://restduino.local/D9/HIGH
 
-Will set digital pin 9 to HIGH.  If you connect an LED between pin 9 and a ground pin on the board and issue the command above, it should turn on.  To turn the LED off, issue the same request with a different value:
+will set digital pin 9 to HIGH.  If you connect an LED between pin 9 and a ground pin on the board and issue the command above, it should turn on.  To turn the LED off, issue the same request with a different value:
 
     curl http://restduino.local/D9/LOW
 
