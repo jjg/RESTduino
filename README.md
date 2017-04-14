@@ -1,4 +1,4 @@
-#RESTduino
+# RESTduino
 
 RESTduino is a simple Arduino sketch that provides a REST-like interface to Arduino equipped with a network interface.  The idea is to allow developers familiar with interacting with REST services a comfortable way to control physical devices using an Arduino (without having to write any Arduino code).
 
@@ -11,7 +11,7 @@ Of course some flexibility is traded for this convenience; only basic operations
 
 Later versions of the sketch may provide additional functionality (servo control, etc.) however if you need more than just basic pin control you're probably better off learning the basics of programming the Arduino and offloading some of the processing to the board itself.
 
-##Getting Started
+## Getting Started
 
 To use RESTduino you'll need some hardware, minimally:
 
@@ -26,7 +26,7 @@ RESTduino was originally designed to work with the Arduino Uno and the Arduino E
 
 If you've never worked with an Arduino before (and have no interest in learning how to program one) I highly recommend starting with a board that comes with RESTduino preinstalled.
 
-###Installation
+### Installation
 
 *note: if you purchased a board with RESTduino preinstalled you can jump to the Testing section below.*
 
@@ -65,7 +65,7 @@ Now select File -> Upload from the Arduino software menu to install RESTduino on
 
 Now you're ready to test RESTduino!
 
-###Testing
+### Testing
 
 Connect your board to your network.  If the board uses Ethernet, this is straightforward, but you'll want to connect the board to the same network switch as your computer to keep things simple during testing.  If your board uses WiFi, you may need to do some board-specific configuration to connect the board to your WiFi network.
 
@@ -77,11 +77,11 @@ You should get a response back that shows how long it took to reach your board. 
 
 Once you're able to ping the board you can try some of the more interesting things below.  
 
-##Useage
+## Useage
 
 Once the hardware is setup and we know it's connected to the network we can use RESTduino to interact with the physical world via regular HTTP requests.  Currently RESTduino uses the GET verb for all operations (which isn't very RESTful, but it works :).
 
-###Setting pins
+### Setting pins
 
 To set the value of a pin, make a GET request indicating which pin to set and what value to set it to.  For example:
 
@@ -97,7 +97,7 @@ In addition to HIGH and LOW, some of the digital pins can be set to values betwe
 
 The LED will light up, but dimmer than when we set it to HIGH.  This feature is called PWM, and pins that support it are indicated with a "~" symbol on the board.  Pins that don't support PWM will still accept integer values, but they will simply go HIGH when given one.
 
-###Reading pins
+### Reading pins
 
 Reading pins works just like setting them but you leave off the value.  So for example, to *read* the value of pin 9:
 
@@ -122,7 +122,7 @@ which returns:
 Analog pins can't be set to a value (they are input-only); if you need to output an "analog" value, use the PWM pins discussed earlier.
 
 
-##Manual Network Configuration
+## Manual Network Configuration
 There's a number of reasons that automatic network configuration may fail:
 
 *  RESTduino can't get an address from your DHCP server (or you don't have one)
